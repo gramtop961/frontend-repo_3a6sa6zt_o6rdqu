@@ -1,4 +1,5 @@
 import { useId, useMemo, useState } from 'react';
+import { motion } from 'framer-motion';
 
 function Section({ id, title, subtitle, children }) {
   const labelId = useId();
@@ -27,7 +28,7 @@ function SocialProof() {
   ], []);
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div className="rounded-xl border border-slate-200/60 bg-white/60 p-6 backdrop-blur">
+      <div className="rounded-xl border border-slate-200/60 bg-white/70 p-6 backdrop-blur">
         <p className="text-center text-sm font-medium text-slate-500">Zaufali nam specjaliści z topowych firm</p>
         <div className="mt-6 grid grid-cols-2 gap-6 sm:grid-cols-4 items-center opacity-80">
           {logos.map((src, i) => (
@@ -59,13 +60,17 @@ function Features() {
     <Section id="features" title="Najważniejsze możliwości" subtitle="Wszystko, czego potrzebujesz do profesjonalnej obsługi połączeń">
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {items.map((it) => (
-          <div key={it.title} className="group rounded-xl border border-slate-200/60 bg-white/70 p-6 transition hover:-translate-y-0.5 hover:shadow">
+          <motion.div
+            key={it.title}
+            className="group rounded-xl border border-slate-200/60 bg-white/70 p-6 transition hover:-translate-y-0.5 hover:shadow"
+            whileHover={{ y: -3 }}
+          >
             <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-50 ring-1 ring-blue-200">
               {it.icon}
             </div>
             <h3 className="mt-4 text-base font-semibold text-slate-900">{it.title}</h3>
             <p className="mt-2 text-sm text-slate-600">{it.desc}</p>
-          </div>
+          </motion.div>
         ))}
       </div>
     </Section>
@@ -96,7 +101,7 @@ function Pricing() {
                 </li>
               ))}
             </ul>
-            <a href="#contact" className="mt-6 inline-flex w-full items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">Wybierz</a>
+            <a href="#contact" className="mt-6 inline-flex w-full items-center justify-center rounded-lg bg-gradient-to-r from-blue-600 to-cyan-600 px-4 py-2 text-sm font-semibold text-white hover:brightness-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">Wybierz</a>
           </div>
         ))}
       </div>
@@ -114,8 +119,8 @@ function FAQ() {
   return (
     <Section id="faq" title="Najczęstsze pytania">
       <div className="mx-auto max-w-3xl divide-y divide-slate-200/70 rounded-xl border border-slate-200/60 bg-white/70">
-        {items.map((it, idx) => (
-          <details key={it.q} className={`group p-6 ${idx!==0 ? '' : ''}`}>
+        {items.map((it) => (
+          <details key={it.q} className="group p-6">
             <summary className="flex cursor-pointer list-none items-center justify-between text-left">
               <span className="text-base font-medium text-slate-900">{it.q}</span>
               <svg className="h-5 w-5 text-slate-500 transition group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9l6 6 6-6"/></svg>
@@ -134,7 +139,6 @@ function Contact() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    // In this sandbox, we just simulate success
     setTimeout(() => setSent(true), 500);
   };
 
@@ -169,7 +173,7 @@ function Contact() {
         </div>
         <div className="flex items-center justify-between">
           <p className="text-xs text-slate-500">Chronimy Twoje dane. Zawsze możesz zrezygnować.</p>
-          <button type="submit" className="inline-flex items-center justify-center rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">Wyślij</button>
+          <button type="submit" className="inline-flex items-center justify-center rounded-lg bg-gradient-to-r from-blue-600 to-cyan-600 px-5 py-2.5 text-sm font-semibold text-white hover:brightness-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">Wyślij</button>
         </div>
       </form>
     </Section>

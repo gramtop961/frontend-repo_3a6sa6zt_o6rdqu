@@ -6,7 +6,7 @@ function Footer() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-3">
-            <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-blue-500 to-blue-700" aria-hidden="true" />
+            <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-600" aria-hidden="true" />
             <div>
               <p className="font-semibold text-slate-900">Yieldo</p>
               <p className="text-sm text-slate-500">Wirtualna recepcjonistka</p>

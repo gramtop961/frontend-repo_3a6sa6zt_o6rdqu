@@ -35,14 +35,18 @@ function Header() {
 
   return (
     <header
-      className={`${scrolled ? 'backdrop-blur bg-white/80 shadow-sm' : 'bg-transparent'} fixed top-0 inset-x-0 z-50 transition-colors`}
+      className={`${scrolled ? 'backdrop-blur-xl bg-white/70 shadow-sm' : 'bg-transparent'} fixed top-0 inset-x-0 z-50 transition-colors`}
       aria-label="Główna nawigacja"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <a href="#top" onClick={(e)=>smoothScroll(e,'top')} className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-blue-500 to-blue-700 shadow-inner" aria-hidden="true" />
-            <span className="font-semibold text-slate-900">Yieldo</span>
+          <a href="#top" onClick={(e)=>smoothScroll(e,'top')} className="group flex items-center gap-2">
+            <div className="relative h-8 w-8">
+              <span className="absolute inset-0 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-600" aria-hidden="true" />
+              <span className="absolute inset-0 rounded-lg bg-white/20" aria-hidden="true" />
+            </div>
+            <span className="font-semibold tracking-tight text-slate-900">Yieldo</span>
+            <span className="sr-only">Powrót na początek</span>
           </a>
 
           <nav className="hidden md:flex items-center gap-1" role="navigation">
@@ -56,9 +60,10 @@ function Header() {
             <a
               href="#contact"
               onClick={(e)=>smoothScroll(e,'contact')}
-              className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+              className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-blue-600 to-cyan-600 px-4 py-2 text-sm font-semibold text-white shadow hover:brightness-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
             >
               Wypróbuj za darmo
+              <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
             </a>
           </div>
 
@@ -74,7 +79,7 @@ function Header() {
       </div>
 
       {open && (
-        <div className="md:hidden border-t border-slate-200 bg-white/90 backdrop-blur">
+        <div className="md:hidden border-t border-slate-200 bg-white/90 backdrop-blur-xl">
           <div className="mx-auto max-w-7xl px-4 py-3 flex flex-col gap-2">
             {navItem('features','Funkcje')}
             {navItem('pricing','Cennik')}
@@ -83,7 +88,7 @@ function Header() {
             <a
               href="#contact"
               onClick={(e)=>smoothScroll(e,'contact')}
-              className="mt-2 inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-blue-700"
+              className="mt-2 inline-flex items-center justify-center rounded-lg bg-gradient-to-r from-blue-600 to-cyan-600 px-4 py-2 text-sm font-semibold text-white shadow"
             >
               Wypróbuj za darmo
             </a>
