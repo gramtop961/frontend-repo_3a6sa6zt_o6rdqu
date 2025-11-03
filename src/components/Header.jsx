@@ -1,15 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { useEffect, useState, useCallback } from 'react';
 
-const navItems = [
-  { label: 'Jak to działa', href: '#jak-to-dziala' },
-  { label: 'Funkcje', href: '#funkcje' },
-  { label: 'Cennik', href: '#cennik' },
-  { label: 'FAQ', href: '#faq' },
-];
-
-export default function Header() {
+function Header() {
   const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -18,55 +11,87 @@ export default function Header() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const handleSmoothLink = (e, href) => {
+  const smoothScroll = useCallback((e, id) => {
     e.preventDefault();
-    const el = document.querySelector(href);
-    if (el) {
-      const headerOffset = 72; // header height offset
-      const elementPosition = el.getBoundingClientRect().top + window.pageYOffset;
-      const offsetPosition = elementPosition - headerOffset;
-      window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
-    }
-  };
+    const el = document.getElementById(id);
+    if (!el) return;
+    const headerOffset = 80;
+    const rect = el.getBoundingClientRect();
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const target = rect.top + scrollTop - headerOffset;
+    window.scrollTo({ top: target, behavior: 'smooth' });
+    setOpen(false);
+  }, []);
+
+  const navItem = (id, label) => (
+    <a
+      href={`#${id}`}
+      onClick={(e) => smoothScroll(e, id)}
+      className="px-3 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded"
+    >
+      {label}
+    </a>
+  );
 
   return (
-    <motion.header
-      initial={{ y: -20, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.4 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${
-        scrolled ? 'bg-white/90 backdrop-blur border-b border-blue-200 shadow-sm' : 'bg-transparent'
-      }`}
+    <header
+      className={`${scrolled ? 'backdrop-blur bg-white/80 shadow-sm' : 'bg-transparent'} fixed top-0 inset-x-0 z-50 transition-colors`}
+      aria-label="Główna nawigacja"
     >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        <a href="#top" className="flex items-center gap-2" onClick={(e)=>handleSmoothLink(e,'#top')}>
-          <div className="h-8 w-8 rounded-md bg-gradient-to-br from-blue-600 to-blue-800" />
-          <span className="font-semibold text-slate-800">Yieldo Wirtualna Recepcjonistka</span>
-        </a>
-
-        <nav className="hidden md:flex items-center gap-8">
-          {navItems.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              onClick={(e) => handleSmoothLink(e, item.href)}
-              className="text-slate-700 hover:text-blue-700 transition-colors"
-            >
-              {item.label}
-            </a>
-          ))}
-        </nav>
-
-        <div className="flex items-center gap-3">
-          <a
-            href="#kontakt"
-            onClick={(e) => handleSmoothLink(e, '#kontakt')}
-            className="inline-flex items-center rounded-md bg-blue-900 text-white px-4 py-2 text-sm font-medium shadow hover:scale-[1.03] hover:bg-blue-800 transition-transform"
-          >
-            Umów demo
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          <a href="#top" onClick={(e)=>smoothScroll(e,'top')} className="flex items-center gap-2">
+            <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-blue-500 to-blue-700 shadow-inner" aria-hidden="true" />
+            <span className="font-semibold text-slate-900">Yieldo</span>
           </a>
+
+          <nav className="hidden md:flex items-center gap-1" role="navigation">
+            {navItem('features','Funkcje')}
+            {navItem('pricing','Cennik')}
+            {navItem('faq','FAQ')}
+            {navItem('contact','Kontakt')}
+          </nav>
+
+          <div className="hidden md:block">
+            <a
+              href="#contact"
+              onClick={(e)=>smoothScroll(e,'contact')}
+              className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+            >
+              Wypróbuj za darmo
+            </a>
+          </div>
+
+          <button
+            className="md:hidden inline-flex items-center justify-center rounded-md p-2 text-slate-600 hover:text-slate-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+            aria-label="Otwórz menu"
+            aria-expanded={open}
+            onClick={() => setOpen((v) => !v)}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6"><path d="M3.75 5.25h16.5v1.5H3.75v-1.5ZM3.75 11.25h16.5v1.5H3.75v-1.5ZM3.75 17.25h16.5v1.5H3.75v-1.5Z"/></svg>
+          </button>
         </div>
       </div>
-    </motion.header>
+
+      {open && (
+        <div className="md:hidden border-t border-slate-200 bg-white/90 backdrop-blur">
+          <div className="mx-auto max-w-7xl px-4 py-3 flex flex-col gap-2">
+            {navItem('features','Funkcje')}
+            {navItem('pricing','Cennik')}
+            {navItem('faq','FAQ')}
+            {navItem('contact','Kontakt')}
+            <a
+              href="#contact"
+              onClick={(e)=>smoothScroll(e,'contact')}
+              className="mt-2 inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-blue-700"
+            >
+              Wypróbuj za darmo
+            </a>
+          </div>
+        </div>
+      )}
+    </header>
   );
 }
+
+export default Header;

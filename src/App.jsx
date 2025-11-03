@@ -1,18 +1,17 @@
-import React from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
-import MainSections from './components/MainSections';
-import FooterArea from './components/FooterArea';
+import Sections from './components/Sections';
+import Footer from './components/Footer';
 
 function App() {
   return (
-    <div className="font-inter text-slate-800 bg-white">
+    <div className="min-h-screen bg-gradient-to-b from-white to-slate-50 text-slate-900">
       <Header />
       <main>
         <Hero />
-        <MainSections />
+        <Sections />
       </main>
-      <FooterArea />
+      <Footer />
     </div>
   );
 }
